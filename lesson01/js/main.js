@@ -4,5 +4,6 @@ let money,
     deposit,
     mission,
     period;
+    
 alert('first');
 console.log('second');
