@@ -1,21 +1,10 @@
-//lesson 01
-let money, 
-    income,
-    addExpenses,
-    deposit,
-    mission,
-    period;
-    
-alert('first');
-console.log('second');
-
 //lesson 02 simple
-money = 42000;
-income = 'freelance';
-addExpenses = 'FEES, MEDICINES, ENTERTAINS';
-deposit = false;
-mission = 400000;
-period = 8;
+let money = 42000;
+    income = 'freelance';
+    addExpenses = 'FEES, MEDICINES, ENTERTAINS';
+    deposit = false;
+    mission = 400000;
+    period = 8;
 
 console.log(typeof money);
 console.log(typeof income);
