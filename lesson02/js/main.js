@@ -1,5 +1,5 @@
 //lesson 02 simple
-let money = 42000;
+let money = 40000;
     income = 'freelance';
     addExpenses = 'FEES, MEDICINES, ENTERTAINS';
     deposit = false;
@@ -10,8 +10,9 @@ console.log(typeof money);
 console.log(typeof income);
 console.log(typeof deposit);
 console.log(addExpenses.length);
-console.log(`Period is ${period} months`);
+console.log(`Период равен ${period} месяцев`);
+console.log(`Цель заработать ${mission} рублей/долларов/гривен/юани`);
 console.log(addExpenses.toLowerCase().split(', '));
 
 let budgetDay = money / 30;
-console.log(budgetDay);
+console.log(+budgetDay.toFixed(2));
