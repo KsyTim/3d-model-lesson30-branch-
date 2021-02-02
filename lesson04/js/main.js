@@ -13,7 +13,7 @@ let meaning = function checkNumMeaning(variable, info) {
 money = meaning(money, moneyInfo);
 let income = 'freelance';
 let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'квартплата, проездной, кредит');
-let deposit = Boolean(+prompt('Есть ли у вас депозит в банке?', 'Да - введите 1, Нет - введите 0'));
+let deposit = Boolean(confirm('Есть ли у вас депозит в банке?'));
 let mission = 400000;
 let expenses1 = prompt('Введите обязательную статью расходов?', 'квартплата');
 let amount1Info = 'Во сколько это обойдется?';
@@ -32,6 +32,7 @@ console.log(showTypeOf(money));
 console.log(showTypeOf(income));
 // выводим тип переменной deposit
 console.log(showTypeOf(deposit));
+console.log(deposit);
 // узнаем длину переменной addExpenses
 console.log(addExpenses.length);
 // выводим в консоль срок, в который необходимо достичь желаемого накопления
