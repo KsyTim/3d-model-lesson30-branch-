@@ -38,14 +38,26 @@ switch (lang) {
 }
 
 // выводим массив в зависимости от значения переменной lang через тернарный оператор
-(lang === 'ru') ? printArrayRu() :
-  (lang === 'en') ? printArrayEng() : console.log('Пожалуйста обновите страницу и снова введите запрашиваемую информацию');
+let weekdays = [
+  ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'],
+  ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+];
+(lang === 'ru') ? printMultiArrayRu() :
+  (lang === 'en') ? printMultiArrayEng() : console.log('Пожалуйста обновите страницу и снова введите запрашиваемую информацию');
 
 // функция с циклом, перебирающим массив с переменной ruWeekdaysArray, которая хранит массив с днями неделями на русском  
 function printArrayRu(){
   for(i = 0; i < ruWeekdaysArray.length; i++){
     console.log(ruWeekdaysArray[i]);
   }
+}
+
+function printMultiArrayRu(){
+  for(i = 0; i < weekdays.length/2; i++) {
+  for(j = 0; j < weekdays[0].length; j++) {
+    console.log(weekdays[i][j]);
+  }
+}
 }
 // функция с циклом, перебирающим массив с переменной enWeekdaysArray, которая хранит массив с днями неделями на английском  
 function printArrayEng(){
@@ -54,8 +66,13 @@ function printArrayEng(){
   }  
 }
 
-
-
+function printMultiArrayEng(){
+  for(i = 1; i < weekdays.length; i++) {
+    for(j = 0; j < weekdays[0].length; j++) {
+      console.log(weekdays[i][j]);
+    }
+  }
+}
 
 //2nd task
 let namePerson = prompt('Пожалуйста введите Ваше имя');
