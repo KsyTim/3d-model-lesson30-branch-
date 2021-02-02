@@ -1,17 +1,25 @@
 //lesson 03 simple
 // создаем переменные
-let money = +prompt('Ваш месячный доход?');
-    income = 'freelance';
-    addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'например: Квартплата, проездной, кредит');
-    deposit = Boolean(+prompt('Есть ли у вас депозит в банке?', 'Да - введите 1, Нет - введите 0'));
-    mission = 400000;
-    expenses1 = prompt('Введите обязательную статью расходов?');
-    amount1 = +prompt('Во сколько это обойдется?');
-    expenses2 = prompt('Введите обязательную статью расходов?');
-    amount2 = +prompt('Во сколько это обойдется?');
-    budgetMonth = money - (amount1 + amount2);
-    period = 8;
-    goal = Math.ceil(mission / budgetMonth);
+let money = +prompt('Ваш месячный доход?');;
+// if(money != null && money != "") {
+//    money = +prompt('Ваш месячный доход?');
+// }
+// else{
+//    alert('Пожалуйста введите Ваш месячный доход');
+//    money = +prompt('Ваш месячный доход?');
+// }     
+// checkVarMeaning(money);
+let income = 'freelance';
+let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'например: Квартплата, проездной, кредит');
+let deposit = Boolean(+prompt('Есть ли у вас депозит в банке?', 'Да - введите 1, Нет - введите 0'));
+let mission = 400000;
+let expenses1 = prompt('Введите обязательную статью расходов?');
+let amount1 = +prompt('Во сколько это обойдется?');
+let expenses2 = prompt('Введите обязательную статью расходов?');
+let amount2 = +prompt('Во сколько это обойдется?');
+let budgetMonth = money - (amount1 + amount2);
+let period = 8;
+let goal = Math.ceil(mission / budgetMonth);
 // выводим тип переменной money
 console.log(typeof money);
 // выводим тип переменной income
@@ -44,3 +52,13 @@ if(budgetDay >= 1200) {
 } else {
     console.log('Что то пошло не так');
 }
+
+// function checkVarMeaning(variable) {
+//     if (variable === null && typeof variable === undefined && variable === '') {
+//         variable = +prompt('Ваш месячный доход?');
+//         return false;
+//     } else {
+//         console.log('hello');
+//         return true;
+//     }
+// }
