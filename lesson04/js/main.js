@@ -1,22 +1,28 @@
 //lesson 03 simple
 // создаем переменные
-let money = +prompt('Ваш месячный доход?');;
-// if(money != null && money != "") {
-//    money = +prompt('Ваш месячный доход?');
-// }
-// else{
-//    alert('Пожалуйста введите Ваш месячный доход');
-//    money = +prompt('Ваш месячный доход?');
-// }     
-// checkVarMeaning(money);
+let moneyInfo = 'Ваш месячный доход?'; 
+let money;
+// создаем функцию, которая будет обрабатывать входные данные от пользователя на null, undefined, '', NaN
+let meaning = function checkNumMeaning(variable, info) {
+  do {
+    variable = +prompt('Пожалуйста введите ' + info);
+  } while (!variable || variable <=0);
+  return variable;
+};
+// вызываем функцию, которая будет требовать от пользователя, чтобы было обязательно введено числовое значение дохода
+money = meaning(money, moneyInfo);
 let income = 'freelance';
-let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'например: Квартплата, проездной, кредит');
+let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'квартплата, проездной, кредит');
 let deposit = Boolean(+prompt('Есть ли у вас депозит в банке?', 'Да - введите 1, Нет - введите 0'));
 let mission = 400000;
-let expenses1 = prompt('Введите обязательную статью расходов?');
-let amount1 = +prompt('Во сколько это обойдется?');
-let expenses2 = prompt('Введите обязательную статью расходов?');
-let amount2 = +prompt('Во сколько это обойдется?');
+let expenses1 = prompt('Введите обязательную статью расходов?', 'квартплата');
+let amount1Info = 'Во сколько это обойдется?';
+let amount1;
+amount1 = meaning(amount1, amount1Info);
+let expenses2 = prompt('Введите обязательную статью расходов?', 'проездной');
+let amount2Info = 'Во сколько это обойдется?';
+let amount2;
+amount2 = meaning(amount2, amount2Info);
 let budgetMonth = money - (amount1 + amount2);
 let period = 8;
 let goal = Math.ceil(mission / budgetMonth);
@@ -52,13 +58,3 @@ if(budgetDay >= 1200) {
 } else {
     console.log('Что то пошло не так');
 }
-
-// function checkVarMeaning(variable) {
-//     if (variable === null && typeof variable === undefined && variable === '') {
-//         variable = +prompt('Ваш месячный доход?');
-//         return false;
-//     } else {
-//         console.log('hello');
-//         return true;
-//     }
-// }
