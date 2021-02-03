@@ -17,7 +17,7 @@ let start = function(){
 start();
 let income = 'freelance';
 let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'квартплата, проездной, кредит');
-let deposit = Boolean(confirm('Есть ли у вас депозит в банке?'));
+let deposit = confirm('Есть ли у вас депозит в банке?');
 let mission = 400000;
 let expenses = [];
 // функция, возвращающая сумму всех обязательных расходов за месяц
