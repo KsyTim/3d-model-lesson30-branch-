@@ -1,3 +1,4 @@
+'use strict'
 //lesson 08 simple
 // создаем функцию, которая будет обрабатывать входные данные от пользователя на null, undefined, '', NaN
 let meaning = function checkNumMeaning(variable, info) {
