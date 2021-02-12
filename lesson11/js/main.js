@@ -7,6 +7,7 @@ let meaning = function checkNumMeaning(variable, info) {
   } while (!variable || variable <=0);
   return variable;
 };
+// создаем функцию, которая будет обрабатывать входные данные от пользователя на null, undefined, '', NaN и чтобы принимала строковые и числовые значения, но при этом не начиналась с числа
 let meaningStr = function checkStrMeaning(variable, info) {
   do {
     variable = prompt('Пожалуйста введите ' + info);
@@ -57,6 +58,7 @@ let incomeItem = document.querySelectorAll('.income-items');
 let money;
 let moneyInfo = 'Ваш месячный доход?'; 
 let appData = {
+  // метод объекта, который приводит в действие основные методы объекта, в том числе выводит данные результирующего метода объекта showResult в соответсвующие инпуты калькулятора
   start: function(){
     appData.budget = +monthIncome.value;
     appData.getExpenses();
@@ -67,6 +69,7 @@ let appData = {
     appData.getBudget();
     appData.showResult();
   },
+  // метод объекта, который присваивает значения переменных свойствам объекта
   showResult: function(){
     incomeMonth.value = appData.budgetMonth();
     budgetDayValue.value = appData.budgetDay();
@@ -79,6 +82,7 @@ let appData = {
       incomePeriodValue.value = appData.calcSavedMoney();
     });
   },
+  // метод объекта, добавляющие валидные блоки с обязательными рассходами
   addExpensesBlock: function(){
     let cloneExpensesItems = expensesItems[0].cloneNode(true);
     expensesItems[0].parentNode.insertBefore(cloneExpensesItems, fixedExpenses);
@@ -96,6 +100,7 @@ let appData = {
       fixedExpensesAmount[2].value = '';
     }
   },
+  // метод объекта, добавляющие валидные блоки с дополнительными доходами
   addIncomeBlock: function(){
     let cloneIncomeItems = incomeItem[0].cloneNode(true);
     incomeItem[0].parentNode.insertBefore(cloneIncomeItems, extraIncome);
@@ -113,6 +118,7 @@ let appData = {
       extraIncomeAmount[2].value = '';
     }
   },
+  // метод объекта, присваивающий значение свойству(объект expenses) объекта с рассходами
   getExpenses: function(){
     expensesItems.forEach(function(item){
       let itemExpenses = item.querySelector('.expenses-title').value;
@@ -122,6 +128,7 @@ let appData = {
       }
     });
   },
+  // метод объекта, присваивающий значение свойству(объект income) объекта с доходами
   getIncome: function(){
     incomeItem.forEach(function(item){
       let itemIncome = item.querySelector('.income-title').value;
@@ -218,6 +225,7 @@ let appData = {
     return appData.budgetMonth() * periodMonth.value;
   }
 };
+// функция, которая обрабатывает событие по кнопке "рассчитать" в калькуляторе
 function submit(param, event) {
   param.addEventListener(event, function(){
     if (!(+param.value) || +param.value <= 0){
@@ -230,28 +238,24 @@ function submit(param, event) {
   }
   });
 }  
+// клик по кнопке обязательные расходы добавляет дополнительные блоки для заполнения
 fixedExpenses.addEventListener('click', function(){
   appData.addExpensesBlock();
 });
+// клик по кнопке дополнительные доходы добавляет дополнительные блоки для заполнения
 extraIncome.addEventListener('click', appData.addIncomeBlock);
+// обработчик события на инпуте типа range, для отображения числового значения 
 periodMonth.addEventListener('input', function(){
   document.querySelector('.period-amount').innerHTML = this.value;
 });
+// вызов функции submit (стр.228-240) - обработчик клика по кнопке "рассчитать" пока поле месячный доход не заполнено
 submit(monthIncome, 'change');
-// monthIncome.addEventListener('change', function(){
-//   if (!(+monthIncome.value) || +monthIncome.value <= 0){
-//     calculateButton.disabled = true;
-//     console.log('заблокирована');
-//   } else {
-//     console.log('активная');
-//     calculateButton.disabled = false;
-//     calculateButton.addEventListener('click', appData.start);
-// }
-// });
+// присвоим паттерн инпутам, где необходимо ввести строковое значение
 let placeholderName = document.querySelectorAll('input[placeholder="Наименование"');
 placeholderName.forEach(function(item){
   placeholderName[item] = item.setAttribute('pattern', "[А-Яа-яЁё .,\/#!$%\^&\*;:{}=\-_`~()]+");
 });
+// присвоим паттерн инпутам, где необходимо ввести числовое значение
 let placeholderSum = document.querySelectorAll('input[placeholder="Сумма"');
 placeholderSum.forEach(function(item){
   placeholderName[item] = item.setAttribute('pattern', "[0-9]+");
