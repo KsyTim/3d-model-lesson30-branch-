@@ -253,13 +253,18 @@ submit(monthIncome, 'change');
 // присвоим паттерн инпутам, где необходимо ввести строковое значение
 let placeholderName = document.querySelectorAll('input[placeholder="Наименование"');
 placeholderName.forEach(function(item){
-  placeholderName[item] = item.setAttribute('pattern', "[А-Яа-яЁё .,\/#!$%\^&\*;:{}=\-_`~()]+");
+  item.addEventListener('input', function(){
+    item.value = item.value.replace(/[^\.\,\-\_\'\"\@\?\!\:\$ А-ЯЁа-яё()]/g, '');
+  });
 });
 // присвоим паттерн инпутам, где необходимо ввести числовое значение
 let placeholderSum = document.querySelectorAll('input[placeholder="Сумма"');
 placeholderSum.forEach(function(item){
-  placeholderName[item] = item.setAttribute('pattern', "[0-9]+");
+  item.addEventListener('input', function(){
+    item.value = item.value.replace(/[^0-9]/g, '');
+  });
 });
+
 
 
 
