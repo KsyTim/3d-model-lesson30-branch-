@@ -15,7 +15,9 @@ let meaningStr = function checkStrMeaning(variable, info) {
   return variable;
 };
 // кнопка 'рассчитать'
-let calculateButton = document.querySelector('#start');
+let calculateButton = document.getElementById('start');
+// кнопка 'сбросить'
+let resetButton = document.getElementById('cancel');
 //  кнопка 'плюс' дополнительный доход
 let extraIncome = document.getElementsByTagName('button')[0];
 // кнопка 'плюс' обязательные рассходы
@@ -68,16 +70,18 @@ let appData = {
     appData.getAddIncome();
     appData.getBudget();
     appData.showResult();
+    appData.inputBlock();
+    appData.resetPre();
   },
   // метод объекта, который присваивает значения переменных свойствам объекта
   showResult: function(){
-    incomeMonth.value = appData.budgetMonth();
-    budgetDayValue.value = appData.budgetDay();
-    expensesMonthValue.value = appData.getExpensesMonth();
-    additionalExpensesValue.value = appData.addExpenses.join(', ');
-    additionalIncomeValue.value = appData.addIncome.join(', ');
-    targetMonthValue.value = appData.getTargetMonth();
-    incomePeriodValue.value = appData.calcSavedMoney();
+    incomeMonth.value = this.budgetMonth();
+    budgetDayValue.value = this.budgetDay();
+    expensesMonthValue.value = this.getExpensesMonth();
+    additionalExpensesValue.value = this.addExpenses.join(', ');
+    additionalIncomeValue.value = this.addIncome.join(', ');
+    targetMonthValue.value = this.getTargetMonth();
+    incomePeriodValue.value = this.calcSavedMoney();
     periodMonth.addEventListener('input', function(){
       incomePeriodValue.value = appData.calcSavedMoney();
     });
@@ -137,8 +141,8 @@ let appData = {
         appData.income[itemIncome] = cashIncome;
       }
     });
-    for (let key in appData.income){
-      appData.incomeMonth += +appData.income[key];
+    for (let key in this.income){
+      this.incomeMonth += +this.income[key];
     }
   },
   getAddExpenses: function(){
@@ -167,30 +171,27 @@ let appData = {
   percentDeposit: 0,
   moneyDeposit: 0, 
   budget: 0,
-  //  function(){
-  //   return appData.start();
-  // },  
   getExpensesMonth: function(){
     let sum = 0;
-    for (let key in appData.expenses) {
-      sum += appData.expenses[key];
+    for (let key in this.expenses) {
+      sum += this.expenses[key];
     }
     return +sum;
   },  
   expensesMonth: function(){
-    return appData.getExpensesMonth();
+    return this.getExpensesMonth();
   },
   getBudget: function(){
-    return appData.budget + appData.incomeMonth - appData.expensesMonth();
+    return this.budget + this.incomeMonth - this.expensesMonth();
   },
   budgetMonth: function(){
-    return appData.getBudget();
+    return this.getBudget();
   },
   getTargetMonth: function() {
-    return Math.ceil(targetAmount.value / appData.budgetMonth());
+    return Math.ceil(targetAmount.value / this.budgetMonth());
   },
   budgetDay: function(){
-    return Math.floor(appData.getBudget() / 30);
+    return Math.floor(this.getBudget() / 30);
   },
   getStatusIncome: function(){
     if(appData.getBudget() >= 1200) {
@@ -204,7 +205,7 @@ let appData = {
     }
   },
   checkTarget: function() {
-    let budget = appData.getBudget();
+    let budget = this.getBudget();
     if(budget <= 0){ 
       budget = 'Цель не будет достигнута';
     } else { 
@@ -222,7 +223,33 @@ let appData = {
     }
   },
   calcSavedMoney: function(){
-    return appData.budgetMonth() * periodMonth.value;
+    return this.budgetMonth() * periodMonth.value;
+  },
+  reset: function(){
+    this.resetAll();
+    this.resetEvent();
+  },
+  inputBlock: function(){
+    let inputGroup = document.querySelectorAll('input[type = "text"]');
+    inputGroup.forEach(function(item){
+      item.setAttribute('readonly', 1);
+    });    
+    // console.log('инпуты заблокированы');
+  },
+  resetPre: function(){
+      calculateButton.style.display = 'none';
+      resetButton.style.display = 'block';
+  },
+  resetAll: function(){
+    let allElems = document.querySelectorAll('input');
+    allElems.forEach(function (item) {
+      item.value = '';
+    });
+  }, 
+  resetEvent: function(){
+    setTimeout(function(){
+        window.location.reload();
+      }, 3000);
   }
 };
 // функция, которая обрабатывает событие по кнопке "рассчитать" в калькуляторе
@@ -231,11 +258,15 @@ function submit(param, event) {
     if (!(+param.value) || +param.value <= 0){
     calculateButton.disabled = true;
     console.log('заблокирована');
-  } else {
-    console.log('активная');
-    calculateButton.disabled = false;
-    calculateButton.addEventListener('click', appData.start);
-  }
+    } else {
+      console.log('активная');
+      calculateButton.disabled = false;
+      // привязsdftv контекст вызова функции start к объекту appData 
+      calculateButton.addEventListener('click', appData.start.bind(this));  
+      calculateButton.addEventListener('click', function(){
+        appData.inputBlock();
+      });
+    }
   });
 }  
 // клик по кнопке обязательные расходы добавляет дополнительные блоки для заполнения
@@ -264,8 +295,9 @@ placeholderSum.forEach(function(item){
     item.value = item.value.replace(/[^0-9]/g, '');
   });
 });
-
-
+resetButton.addEventListener('click', function () {
+  appData.reset();
+});  
 
 
 // calculateButton.disabled = true;
