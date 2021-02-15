@@ -228,6 +228,8 @@ let appData = {
   reset: function(){
     this.resetAll();
     this.resetEvent();
+    this.resetAll();
+    this.inputUnblock();
   },
   inputBlock: function(){
     let inputGroup = document.querySelectorAll('input[type = "text"]');
@@ -235,6 +237,12 @@ let appData = {
       item.setAttribute('readonly', 1);
     });    
     // console.log('инпуты заблокированы');
+  },
+  inputUnblock: function(){
+    let inputGroup = document.querySelectorAll('input[type = "text"]');
+    inputGroup.forEach(function(item){
+      item.removeAttribute('readonly');
+    });  
   },
   resetPre: function(){
       calculateButton.style.display = 'none';
@@ -245,11 +253,13 @@ let appData = {
     allElems.forEach(function (item) {
       item.value = '';
     });
+    periodMonth.value = 1;
+    document.querySelector('.period-amount').innerHTML = periodMonth.value;
+    this.addExpenses.splice(0, appData.addExpenses.length);
   }, 
   resetEvent: function(){
-    setTimeout(function(){
-        window.location.reload();
-      }, 3000);
+    resetButton.style.display = 'none';
+    calculateButton.style.display = 'block';
   }
 };
 // функция, которая обрабатывает событие по кнопке "рассчитать" в калькуляторе
