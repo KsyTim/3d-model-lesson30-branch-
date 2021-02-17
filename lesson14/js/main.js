@@ -268,18 +268,18 @@ AppData.prototype.resetAll = function(){
   });
   periodMonth.value = 1;
   document.querySelector('.period-amount').innerHTML = periodMonth.value;
-  this.addExpenses.splice(0, _this.addExpenses.length);
-  const exp = this.expenses;
+  this.addExpenses.splice(0, this.addExpenses.length);
+  const exp = _this.expenses;
   for(let i in exp){
-    exp[i] = '';
+    delete exp[i];
   }
-  this.addIncome.splice(0, _this.addIncome.length);
+  this.addIncome.splice(0, this.addIncome.length);
   this.budget = 0;
   const inc = this.income;
   for(let i in inc){
-    inc[i] = '';
+    delete inc[i];
   }
-  this.incomeMonth = 0;
+  _this.incomeMonth = 0;
   targetMonthValue.value = '';
 }; 
 AppData.prototype.resetEvent = function(){
