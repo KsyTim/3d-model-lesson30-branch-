@@ -74,17 +74,17 @@ const AppData = function () {
 };
 // метод объекта, который приводит в действие основные методы объекта, в том числе выводит данные результирующего метода объекта showResult в соответсвующие инпуты калькулятора
 AppData.prototype.start = function(){
-  const _this = appData;
-  _this.budget = +monthIncome.value;
-  _this.getExpenses();
-  _this.getIncome();
-  _this.getExpensesMonth();
-  _this.getAddExpenses();
-  _this.getAddIncome();
-  _this.getBudget();
-  _this.showResult();
-  _this.inputBlock();
-  _this.resetPre();
+  // const _this = this;
+  this.budget = +monthIncome.value;
+  this.getExpenses();
+  this.getIncome();
+  this.getExpensesMonth();
+  this.getAddExpenses();
+  this.getAddIncome();
+  this.getBudget();
+  this.showResult();
+  this.inputBlock();
+  this.resetPre();
 };
 // метод объекта, который присваивает значения переменных свойствам объекта
 AppData.prototype.showResult = function(){
@@ -138,12 +138,12 @@ AppData.prototype.addIncomeBlock = function(){
 };
 // метод объекта, присваивающий значение свойству(объект expenses) объекта с рассходами
 AppData.prototype.getExpenses = function(){
-  const _this = this; 
-  expensesItems.forEach(function(item){
+  // const _this = this; 
+  expensesItems.forEach((item) => {
     let itemExpenses = item.querySelector('.expenses-title').value;
     let cashExpenses = item.querySelector('.expenses-amount').value;
     if(itemExpenses !== '' && cashExpenses !== ''){
-      _this.expenses[itemExpenses] = +cashExpenses;
+      this.expenses[itemExpenses] = +cashExpenses;
     }
   });
 };
@@ -242,6 +242,8 @@ AppData.prototype.reset = function(){
   this.resetEvent();
   this.resetAll();
   this.inputUnblock();
+  this.addIncomeUnBlock();
+  this.addExpensesUnBlock();
 };
 AppData.prototype.inputBlock = function(){
   let inputGroup = document.querySelectorAll('input[type = "text"]');
@@ -281,6 +283,7 @@ AppData.prototype.resetAll = function(){
   }
   _this.incomeMonth = 0;
   targetMonthValue.value = '';
+  depositCheck.checked = false;
 }; 
 AppData.prototype.resetEvent = function(){
   resetButton.style.display = 'none';
@@ -298,7 +301,7 @@ AppData.prototype.eventListeners = function(){
       console.log('активная');
       calculateButton.disabled = false;
       // привязsdftv контекст вызова функции start к объекту appData 
-      calculateButton.addEventListener('click', _this.start.bind(this));  
+      calculateButton.addEventListener('click', _this.start.bind(_this));  
       calculateButton.addEventListener('click', function(){
         _this.inputBlock();
       });
@@ -331,7 +334,29 @@ AppData.prototype.eventListeners = function(){
   resetButton.addEventListener('click', function () {
     _this.reset();
   });
-}
+};
+// метод, при сбросе удаляющий дополнительные инпуты
+AppData.prototype.addIncomeUnBlock = function(){
+  if(incomeItem.length > 1){
+    let variable = Array.prototype.slice.call(incomeItem, 1);
+    variable.forEach((item) =>{
+      item.parentNode.removeChild(item);
+    });
+    extraIncome.style.display = 'block';
+    console.log('what');
+  }
+};
+AppData.prototype.addExpensesUnBlock = function(){
+  if(expensesItems.length > 1){
+    let variable = Array.prototype.slice.call(expensesItems, 1);
+    variable.forEach((item) =>{
+      item.parentNode.removeChild(item);
+    });
+    fixedExpenses.style.display = 'block';
+    console.log('what');
+  }
+};
+
 
 const appData = new AppData();
 appData.eventListeners();
