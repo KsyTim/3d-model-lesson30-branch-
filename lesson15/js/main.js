@@ -59,9 +59,9 @@ class AppData {
   // метод объекта, который приводит в действие основные методы объекта, в том числе выводит данные результирующего метода объекта showResult в соответсвующие инпуты калькулятора
   start(){    
     this.budget = +monthIncome.value;
-    // this.getExpInc();
-    this.getIncome();
-    this.getExpenses();
+    this.getExpInc();
+    // this.getIncome();
+    // this.getExpenses();
     this.getExpensesMonth();
     this.getAddExpenses();
     this.getAddIncome();
@@ -148,43 +148,19 @@ class AppData {
 
   // метод объекта, присваивающий значение свойству(объект expenses) объекта с рассходами
   // метод объекта, присваивающий значение свойству(объект income) объекта с доходами
-  // getExpInc(){
-  //   const count = item => {
-  //     const startStr = item.className.split('-')[0];
-  //     const itemTitle = item.querySelector(`.${startStr}-title`).value;
-  //     const itemAmount = item.querySelector(`.${startStr}-amount`).value;
-  //     if(itemTitle !== '' && itemAmount !== ''){
-  //       this[startStr][itemTitle] = itemAmount;
-  //     }
-  //   };
-  //   incomeItem.forEach(count); 
-  //   expensesItems.forEach(count);
-  //   for (let key in this.income){
-  //     this.incomeMonth += +this.income[key];
-  //   }
-  // }
-  // метод объекта, присваивающий значение свойству(объект expenses) объекта с рассходами
-  getExpenses(){
-    expensesItems.forEach((item) => {
-      let itemExpenses = item.querySelector('.expenses-title').value;
-      let cashExpenses = item.querySelector('.expenses-amount').value;
-      if(itemExpenses !== '' && cashExpenses !== ''){
-        this.expenses[itemExpenses] = +cashExpenses;
+  getExpInc(){
+    const count = item => {
+      const startStr = item.className.split('-')[0];
+      const itemTitle = item.querySelector(`.${startStr}-title`).value;
+      const itemAmount = item.querySelector(`.${startStr}-amount`).value;
+      if(itemTitle !== '' && itemAmount !== ''){
+        this[startStr][itemTitle] = +itemAmount;
       }
-    });
-  }
-  // метод объекта, присваивающий значение свойству(объект income) объекта с доходами
-  getIncome(){
-    const _this = this; 
-    incomeItem.forEach(function(item){
-      let itemIncome = item.querySelector('.income-title').value;
-      let cashIncome = item.querySelector('.income-amount').value;
-      if (itemIncome !== '' && cashIncome !== ''){
-        _this.income[itemIncome] = cashIncome;
-      }
-    });
+    };
+    incomeItem.forEach(count); 
+    expensesItems.forEach(count);
     for (let key in this.income){
-      this.incomeMonth += +this.income[key];
+      this.incomeMonth += this.income[key];
     }
   }
   getAddExpenses(){
