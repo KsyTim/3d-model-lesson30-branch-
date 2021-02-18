@@ -24,7 +24,7 @@ const incomePeriodValue = document.getElementsByClassName('income_period-value')
 // срок достижения цели
 const targetMonthValue = document.getElementsByClassName('target_month-value')[0];
 // месячный доход
-const monthIncome = document.querySelector('.salary-amount');
+let monthIncome = document.querySelector('.salary-amount');
 // наименование дополнительного дохода
 let extraIncomeTitle = document.querySelectorAll('input.income-title');
 let extraIncomeAmount = document.querySelectorAll('input.income-amount');
@@ -285,28 +285,33 @@ class AppData {
     this.incomeMonth = 0;
     targetMonthValue.value = '';
     depositCheck.checked = false;
+    this.checkIncome();
   } 
   resetEvent(){
     resetButton.style.display = 'none';
     calculateButton.style.display = 'block';
   }
+  checkIncome() {
+    monthIncome = document.querySelector('.salary-amount');
+    if (!(+monthIncome.value) || +monthIncome.value <= 0 || monthIncome.value === ''){
+    calculateButton.disabled = true;
+    console.log('заблокирована');
+    } else {
+      console.log('активная');
+      calculateButton.disabled = false;
+    }  
+  }
   eventListeners(){
     const _this = this;
     // функция, которая обрабатывает событие по кнопке "рассчитать" в калькуляторе
-    monthIncome.addEventListener('change', function(){
-      if (!(+monthIncome.value) || +monthIncome.value <= 0 || monthIncome.value === ''){
-      calculateButton.disabled = true;
-      console.log('заблокирована');
-      } else {
-        console.log('активная');
-        calculateButton.disabled = false;
-        // привязsdftv контекст вызова функции start к объекту appData 
-        calculateButton.addEventListener('click', _this.start.bind(_this));  
-        calculateButton.addEventListener('click', function(){
-          _this.inputBlock();
-        });
-      }
+    monthIncome.addEventListener('change', _this.checkIncome.bind(_this));
+    this.checkIncome();
+    calculateButton.addEventListener('click', _this.start.bind(_this));  
+    calculateButton.addEventListener('click', function(){
+      _this.inputBlock();
     });
+      // }
+    // });
     // клик по кнопке обязательные расходы добавляет дополнительные блоки для заполнения
     fixedExpenses.addEventListener('click', function(){
       // const elemClass = this.parentElement.className;
