@@ -20,7 +20,7 @@ const calculateButton = document.getElementById('start'),
     // возможные расходы
     additionalExpensesValue = document.getElementsByClassName('additional_expenses-value')[0],
      // накопления за период
-     incomePeriodValue = document.getElementsByClassName('income_period-value')[0],
+    incomePeriodValue = document.getElementsByClassName('income_period-value')[0],
     // срок достижения цели
     targetMonthValue = document.getElementsByClassName('target_month-value')[0],
     // возможные расходы
@@ -348,7 +348,7 @@ class AppData {
     });
     // обработчик события на инпуте типа range, для отображения числового значения 
     periodMonth.addEventListener('input', () => {
-      document.querySelector('.period-amount').innerHTML = this.value;
+      document.querySelector('.period-amount').innerHTML = periodMonth.value;
     });
     // присвоим паттерн инпутам, где необходимо ввести строковое значение
     const placeholderName = document.querySelectorAll('input[placeholder="Наименование"');
