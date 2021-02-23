@@ -1,6 +1,7 @@
 window.addEventListener('DOMContentLoaded', function(){
   'use strict';
 
+  // таймер
   function countTimer(dDay){
     let timerHours = document.querySelector('#timer-hours'),
         timerMinutes = document.querySelector('#timer-minutes'),
@@ -48,4 +49,79 @@ window.addEventListener('DOMContentLoaded', function(){
   }
 
   countTimer('23 february 2021');
+
+
+  //меню 
+  const toggleMenu = () => {
+    const btnMenu = document.querySelector('.menu'),
+          menu = document.querySelector('menu'),
+          closeBtn = document.querySelector('.close-btn'), 
+          menuItems = menu.querySelectorAll('ul>li'),
+          width = document.documentElement.offsetWidth;
+    const actionMenu = () => {
+      menu.classList.toggle('active-menu');
+    };   
+    const openModal = () => {
+      let count = 0;  
+      const width = document.documentElement.offsetWidth;    
+      let openModal = setInterval(() => {
+        count+=10;
+        if((count - 10) < width){        
+          menu.style.left = count + 'px';
+        } else if (count === width) {
+          clearInterval(openModal);
+        }
+      }, 10);
+    };
+    const closeModal = () => {
+      let count = 0;
+      const width = document.documentElement.offsetWidth;
+      let closeModal = setInterval(() => {
+        count+=10;
+        if((count - 10) < width){  
+          let left = width - count; 
+          menu.style.left = left + 'px';
+        } else if (count === width) {
+          clearInterval(closeModal);
+        }
+      }, 10);
+    };
+    if (width < 768) {
+      btnMenu.addEventListener('click', actionMenu);
+      closeBtn.addEventListener('click', actionMenu);
+      menuItems.forEach((elem) => elem.addEventListener('click', actionMenu));
+    } else {
+      btnMenu.addEventListener('click', openModal);
+      closeBtn.addEventListener('click', closeModal);
+      menuItems.forEach((elem) => {
+        elem.addEventListener('click', () => {
+          closeModal(); 
+          // elem.scrollIntoView({
+          //   behavior: 'smooth',
+          //   block: 'end'
+          // });
+        });
+      });
+    } 
+  };
+  toggleMenu();
+
+
+
+  // модальное окно 
+  const toggleModal = () => {
+    const modal = document.querySelector('.popup'),
+          modalBtn = document.querySelectorAll('.popup-btn'),
+          closeModal = document.querySelector('.popup-close');
+    modalBtn.forEach((elem) => {
+      elem.addEventListener('click', () => {
+        modal.style.display = 'block';
+      });
+    });
+    closeModal.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+  };
+
+  toggleModal();
 });
