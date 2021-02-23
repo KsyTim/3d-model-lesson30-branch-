@@ -47,8 +47,12 @@ window.addEventListener('DOMContentLoaded', function(){
         if (today > -1 && today < 10){
           return preNumber(today);
         } else if (today > 9 && today < 24) {
-          today = today - 12;
-          return preNumber(today);
+          if (today > 9 && today < 12){
+            return preNumber(today);
+          } else if (today >=12 && today < 24){
+            today = today - 12;
+            return preNumber(today);
+          }
         }
       } 
       return zeroPre();
@@ -105,12 +109,21 @@ window.addEventListener('DOMContentLoaded', function(){
             day = Math.floor(timeRemaining / 3600 / 24);
       return day;      
     }
+    function day (day){
+      if (day > 4 && day < 20 || day % 10 > 4 && day % 10 < 10 || day % 100 > 4 && day % 100 < 20 || day % 10 === 0 || day % 100 === 0) {
+        return `${day} дней`;
+      } else if(day === 1 || day % 10 === 1 || day % 100 === 1){
+        return `${day} день`;
+      } else if (day > 1 && day < 5 || day % 10 > 1 && day % 10 < 5 || day % 100 > 1 && day % 100 < 5) {
+        return `${day} дня`;
+      } 
+    } 
     // результат работы функции, выводим на страницу в необходимом формате, получив элемент по id
     document.querySelector('.time').innerHTML = (
       `${dayTiming()} <br />
       Сегодня: ${weekday()} <br />
       Текущее время: ${hours()}:${minutes()}:${seconds()} ${hourPmAm()} <br />
-      До нового года осталось ${dayNewYear()} дней <br />
+      До нового года осталось ${day(dayNewYear())} <br />
     `);
   }
   setInterval(getTime, 1000);
