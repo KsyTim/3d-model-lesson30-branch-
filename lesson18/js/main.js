@@ -48,7 +48,7 @@ window.addEventListener('DOMContentLoaded', function(){
     updateClock();
   }
 
-  countTimer('23 february 2021');
+  countTimer('24 february 2021');
 
 
   //меню 
