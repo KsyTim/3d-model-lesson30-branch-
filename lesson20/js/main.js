@@ -57,68 +57,51 @@ window.addEventListener('DOMContentLoaded', () => {
 		const actionMenu = () => {
 			menu.classList.toggle('active-menu');
 		};
-		const smoothScroller = () => {
-			document.addEventListener('click', event => {
-				const target = event.target,
-					targetMenuItem = target.closest('ul>li'),
-					targetToServices = target.closest('[href="#service-block"');
-				if (targetMenuItem !== null) {
-					actionMenu();
-					event.preventDefault();
-					const id = target.getAttribute('href').substr(1);
-					const scrollTo = document.getElementById(id);
-					const elemPosition = scrollTo.getBoundingClientRect().top;
-					window.scrollBy({
-						top: elemPosition,
-						behavior: 'smooth'
-					});
-				} else if (targetToServices !== null) {
-					event.preventDefault();
-					const id = document.querySelector('[href="#service-block"').getAttribute('href').substr(1);
-					const scrollTo = document.getElementById(id);
-					const elemPosition = scrollTo.getBoundingClientRect().top;
-					window.scrollBy({
-						top: elemPosition,
-						behavior: 'smooth'
-					});
-				}
-			});
-		};
 		const eventListener = () => {
 			document.addEventListener('click', event => {
 				const target = event.target,
 					targetMenu = target.closest('.menu'),
 					targetCloseBtn = target.closest('.close-btn'),
-					targetMenuItem = target.closest('ul>li');
-				if (targetMenu !== null) {
-					menu.style.transform = 'translateX(100%)';
-				} else if (targetCloseBtn !== null) {
-					menu.style.transform = 'translateX(-100%)';
-				} else if (targetMenuItem !== null) {
-					menu.style.transform = 'translateX(-100%)';
+					targetMenuItem = target.closest('ul>li'),
+					targetToServices = target.closest('[href="#service-block"'),
+					width = document.documentElement.offsetWidth;
+				if (width < 768) {
+					if (targetMenu !== null) {
+						menu.style.transform = 'translateX(100%)';
+					} else if (targetCloseBtn !== null) {
+						menu.style.transform = 'translateX(-100%)';
+					} else if (targetMenuItem !== null) {
+						menu.style.transform = 'translateX(-100%)';
+					}
+				} else {
+					if (targetMenu !== null) {
+						actionMenu();
+					} else if (targetCloseBtn !== null) {
+						actionMenu();
+					} else if (targetMenuItem !== null) {
+						actionMenu();
+						event.preventDefault();
+						const id = target.getAttribute('href').substr(1);
+						const scrollTo = document.getElementById(id);
+						const elemPosition = scrollTo.getBoundingClientRect().top;
+						window.scrollBy({
+							top: elemPosition,
+							behavior: 'smooth'
+						});
+					} else if (targetToServices !== null) {
+						event.preventDefault();
+						const id = document.querySelector('[href="#service-block"').getAttribute('href').substr(1);
+						const scrollTo = document.getElementById(id);
+						const elemPosition = scrollTo.getBoundingClientRect().top;
+						window.scrollBy({
+							top: elemPosition,
+							behavior: 'smooth'
+						});
+					}
 				}
 			});
 		};
-		const eventListenerLarge = () => {
-			document.addEventListener('click', event => {
-				const target = event.target,
-					targetMenu = target.closest('.menu'),
-					targetCloseBtn = target.closest('.close-btn');
-				if (targetMenu !== null) {
-					actionMenu();
-				} else if (targetCloseBtn !== null) {
-					actionMenu();
-				}
-			});
-		};
-
-		const width = document.documentElement.offsetWidth;
-		if (width < 768) {
-			eventListener();
-		} else {
-			eventListenerLarge();
-			smoothScroller();
-		}
+		eventListener();
 	};
 	toggleMenu();
 
