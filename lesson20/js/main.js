@@ -53,7 +53,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	//меню
 	const toggleMenu = () => {
-		const menu = document.querySelector('menu');
+		let menu = document.querySelector('menu');
 		const actionMenu = () => {
 			menu.classList.toggle('active-menu');
 		};
@@ -64,19 +64,20 @@ window.addEventListener('DOMContentLoaded', () => {
 					targetCloseBtn = target.closest('.close-btn'),
 					targetMenuItem = target.closest('ul>li'),
 					targetToServices = target.closest('[href="#service-block"'),
-					width = document.documentElement.offsetWidth,
-					notMenu = target.closest('menu.active-menu');
+					width = document.documentElement.offsetWidth;
 				if (width < 768) {
+					menu = document.querySelector('menu');
 					if (targetMenu !== null) {
 						menu.style.transform = 'translateX(100%)';
 					} else if (targetCloseBtn !== null) {
 						menu.style.transform = 'translateX(-100%)';
 					} else if (targetMenuItem !== null) {
 						menu.style.transform = 'translateX(-100%)';
-					} else if (!notMenu) {
+					} else if (menu.getAttribute('style') === 'transform: translateX(100%);') {
 						menu.style.transform = 'translateX(-100%)';
 					}
 				} else {
+					menu = document.querySelector('menu');
 					if (targetMenu !== null) {
 						actionMenu();
 					} else if (targetCloseBtn !== null) {
@@ -100,7 +101,7 @@ window.addEventListener('DOMContentLoaded', () => {
 							top: elemPosition,
 							behavior: 'smooth'
 						});
-					} else if (!notMenu) {
+					} else if (menu.className === 'active-menu') {
 						actionMenu();
 					}
 				}
