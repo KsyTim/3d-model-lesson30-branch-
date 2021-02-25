@@ -64,13 +64,16 @@ window.addEventListener('DOMContentLoaded', () => {
 					targetCloseBtn = target.closest('.close-btn'),
 					targetMenuItem = target.closest('ul>li'),
 					targetToServices = target.closest('[href="#service-block"'),
-					width = document.documentElement.offsetWidth;
+					width = document.documentElement.offsetWidth,
+					notMenu = target.closest('menu.active-menu');
 				if (width < 768) {
 					if (targetMenu !== null) {
 						menu.style.transform = 'translateX(100%)';
 					} else if (targetCloseBtn !== null) {
 						menu.style.transform = 'translateX(-100%)';
 					} else if (targetMenuItem !== null) {
+						menu.style.transform = 'translateX(-100%)';
+					} else if (!notMenu) {
 						menu.style.transform = 'translateX(-100%)';
 					}
 				} else {
@@ -97,6 +100,8 @@ window.addEventListener('DOMContentLoaded', () => {
 							top: elemPosition,
 							behavior: 'smooth'
 						});
+					} else if (!notMenu) {
+						actionMenu();
 					}
 				}
 			});
