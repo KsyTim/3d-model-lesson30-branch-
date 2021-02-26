@@ -235,9 +235,6 @@ window.addEventListener('DOMContentLoaded', () => {
 		let slide = document.querySelectorAll('.portfolio-item'),
 			dot =  document.querySelectorAll('.dot');
 
-		dot.forEach(item => {
-			item.remove();
-		});
 		slide = document.querySelectorAll('.portfolio-item');
 		for (let i = 0; i < slide.length; i++) {
 			dots.insertAdjacentHTML('beforeend', '<li class="dot"></li>');
