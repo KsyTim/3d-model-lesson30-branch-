@@ -394,4 +394,5 @@ window.addEventListener('DOMContentLoaded', () => {
 	};
 
 	footerForm();
+
 });
