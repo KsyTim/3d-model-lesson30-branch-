@@ -376,7 +376,7 @@ window.addEventListener('DOMContentLoaded', () => {
 					reg = reg.replace(/^( *-* *)|( *-* *)$/g, '');
 					target.value = reg;
 				} else if (target.placeholder === 'E-mail') {
-					const reg = target.value.replace(/[а-яё0-9/, +=)({&$%#"^:;?`<>№|\\})]/gi, '');
+					const reg = target.value.replace(/[а-яё0-9/, +=)({&$%#^:;?`<>№|\\})]/gi, '');
 					target.value = reg;
 				} else if (target.placeholder === 'Номер телефона') {
 					const reg = target.value.replace(/[а-яёa-z/, +=_~{!*&$%#'."^:;?`<>№|\][\\}]/gi, '');
