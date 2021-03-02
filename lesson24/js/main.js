@@ -414,10 +414,38 @@ window.addEventListener('DOMContentLoaded', () => {
 				dayValue *= 1.5;
 			}
 			if (typeValue && squareValue) {
-				total = price * typeValue * squareValue * countValue * dayValue;
+				total = Math.round(price * typeValue * squareValue * countValue * dayValue);
 			}
 
-			totalValue.textContent = total;
+
+			const setValue = function(oldValue, newValue, operation, increaseBy, speed) {
+				let interval = false;
+				if (operation) {
+					interval = setInterval(() => {
+						if (oldValue.innerHTML * 1 + increaseBy >= newValue) {
+							oldValue.innerHTML = newValue;
+							clearInterval(interval);
+						} else {
+							oldValue.innerHTML = oldValue.innerHTML * 1 + increaseBy;
+						}
+					}, speed);
+				} else {
+					interval = setInterval(() => {
+						if (oldValue.innerHTML * 1 - increaseBy <= newValue) {
+							oldValue.innerHTML = newValue;
+							clearInterval(interval);
+						} else {
+							oldValue.innerHTML = oldValue.innerHTML * 1 - increaseBy;
+						}
+					}, speed);
+				}
+			};
+			const oldPrice = document.getElementById('total');
+			if (+oldPrice.textContent < total) {
+				setValue(totalValue, total, true, 100, .5);
+			} else if (+oldPrice.textContent > total) {
+				setValue(totalValue, total, false, 100, .5);
+			}
 		};
 
 		calcBlock.addEventListener('change', event => {
