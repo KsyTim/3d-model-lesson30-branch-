@@ -422,7 +422,7 @@ window.addEventListener('DOMContentLoaded', () => {
 				let interval = false;
 				if (operation) {
 					interval = setInterval(() => {
-						if (oldValue.innerHTML * 1 + increaseBy >= newValue) {
+						if (oldValue.innerHTML >= newValue) {
 							oldValue.innerHTML = newValue;
 							clearInterval(interval);
 						} else {
@@ -431,7 +431,7 @@ window.addEventListener('DOMContentLoaded', () => {
 					}, speed);
 				} else {
 					interval = setInterval(() => {
-						if (oldValue.innerHTML * 1 - increaseBy <= newValue) {
+						if (oldValue.innerHTML <= newValue) {
 							oldValue.innerHTML = newValue;
 							clearInterval(interval);
 						} else {
