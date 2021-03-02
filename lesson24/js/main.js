@@ -50,6 +50,45 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	countTimer('25 february 2021');
 
+	//форма header
+	const headerForm = () => {
+		const headerForm = document.querySelector('.main-form');
+		const formInput = headerForm.querySelectorAll('input');
+		formInput.forEach(item => {
+			item.addEventListener('blur', event => {
+				const target = event.target;
+				function replaceUpper(match) {
+					return match.toUpperCase();
+				}
+				function replaceLower(match) {
+					return match.toLowerCase();
+				}
+				if (target.placeholder === 'Ваше имя') {
+					let reg = target.value.replace(/[a-z0-9/.,+=_)({*&$%#@'"!~^:;?`<>№|\\})]/gi, '');
+					reg = reg.replace(/ {2,}/g, ' ');
+					reg = reg.replace(/^( *-* *)|( *-* *)$/g, '');
+					target.value = reg;
+				} else if (target.placeholder === 'E-mail') {
+					const reg = target.value.replace(/[а-яё0-9/, +=)({&$%#^:;?`<>№|\\})]/gi, '');
+					target.value = reg;
+				} else if (target.placeholder === 'Номер телефона') {
+					const reg = target.value.replace(/[а-яёa-z/, +=_~{!*&$%#'."^:;?`<>№|\][\\}]/gi, '');
+					target.value = reg;
+				}
+				if (target.placeholder === 'Ваше имя') {
+					const str = target.value;
+					const regFirst = str.replace(/([А-ЯЁа-яё]*)/g, replaceLower).substr(1);
+					const regOther = str.replace(/([А-ЯЁа-яё]*)/g, replaceUpper).substr(0, 1);
+					const reg =  regOther + regFirst;
+					target.value = reg;
+				}
+			});
+		});
+	};
+
+	headerForm();
+
+
 
 	//меню
 	const toggleMenu = () => {
