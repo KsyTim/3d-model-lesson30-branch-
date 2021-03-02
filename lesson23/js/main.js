@@ -364,11 +364,11 @@ window.addEventListener('DOMContentLoaded', () => {
 		formInput.forEach(item => {
 			item.addEventListener('blur', event => {
 				const target = event.target;
-				function replaceUpper(match1) {
-					return match1.toUpperCase();
+				function replaceUpper(match) {
+					return match.toUpperCase();
 				}
-				function replaceLower(match1) {
-					return match1.toLowerCase();
+				function replaceLower(match) {
+					return match.toLowerCase();
 				}
 				if (target.placeholder === 'Ваше имя' || target.placeholder === 'Ваше сообщение') {
 					let reg = target.value.replace(/[a-z0-9/.,+=_)({*&$%#@'"!~^:;?`<>№|\\})]/gi, '');
