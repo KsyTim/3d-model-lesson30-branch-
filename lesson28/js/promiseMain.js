@@ -29,66 +29,26 @@ window.addEventListener('DOMContentLoaded', () => {
 				seconds: preNumber(seconds),
 			};
 		}
-		function updateClock() {
+		const updateClock = () => {
 			const timer = getTimeRemaining();
 			timerHours.textContent = timer.hours;
 			timerMinutes.textContent = timer.minutes;
 			timerSeconds.textContent = timer.seconds;
-
+			let interval;
 			if (timer.timeRemaining > 0) {
-				setInterval(updateClock, 1000);
+				interval = setInterval(updateClock, 1000);
 			} else if (timer.timeRemaining <= 0) {
-				clearInterval(updateClock);
+				clearInterval(interval);
 				timerHours.textContent = '00';
 				timerMinutes.textContent = '00';
 				timerSeconds.textContent = '00';
 				timerAction.textContent = 'Акция завершена';
 			}
-		}
+		};
 		updateClock();
 	}
 
-	countTimer('25 february 2021');
-
-	//форма header
-	const headerForm = () => {
-		const headerForm = document.querySelector('.main-form');
-		const formInput = headerForm.querySelectorAll('input');
-		formInput.forEach(item => {
-			item.addEventListener('blur', event => {
-				const target = event.target;
-				function replaceUpper(match) {
-					return match.toUpperCase();
-				}
-				function replaceLower(match) {
-					return match.toLowerCase();
-				}
-				if (target.placeholder === 'Ваше имя') {
-					let reg = target.value.replace(/[a-z0-9/.,+=_)({*&$%#@'"!~^:;?`<>№|\\})]/gi, '');
-					reg = reg.replace(/ {2,}/g, ' ');
-					reg = reg.replace(/^( *-* *)|( *-* *)$/g, '');
-					target.value = reg;
-				} else if (target.placeholder === 'E-mail') {
-					const reg = target.value.replace(/[а-яё0-9/, +=)({&$%#^:;?`<>№|\\})]/gi, '');
-					target.value = reg;
-				} else if (target.placeholder === 'Номер телефона') {
-					const reg = target.value.replace(/[а-яёa-z/, +=_~{!*&$%#'."^:;?`<>№|\][\\}]/gi, '');
-					target.value = reg;
-				}
-				if (target.placeholder === 'Ваше имя') {
-					const str = target.value;
-					const regFirst = str.replace(/([А-ЯЁа-яё]*)/g, replaceLower).substr(1);
-					const regOther = str.replace(/([А-ЯЁа-яё]*)/g, replaceUpper).substr(0, 1);
-					const reg =  regOther + regFirst;
-					target.value = reg;
-				}
-			});
-		});
-	};
-
-	headerForm();
-
-
+	countTimer('07 March 2021');
 
 	//меню
 	const toggleMenu = () => {
@@ -193,11 +153,19 @@ window.addEventListener('DOMContentLoaded', () => {
 			closeModalBtn.addEventListener('click', () => {
 				modal.style.display = 'none';
 			});
-			modal.addEventListener('click', () => {
-				modal.style.display = 'none';
+			modal.addEventListener('click', event => {
+				let target = event.target;
+				if (target.classList.contains('popup-close')) {
+					modal.style.display = 'none';
+				} else {
+					target = target.closest('.popup-content');
+					if (!target) {
+						modal.style.display = 'none';
+					}
+				}
 			});
-			document.addEventListener('keydown', e => {
-				if (e.which === 27) {
+			document.addEventListener('keydown', event => {
+				if (event.which === 27) {
 					modal.style.display = 'none';
 				}
 			});
@@ -232,8 +200,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	toggleModal();
 
-
-
 	// табы
 	const tabs = () => {
 		const tabHeader = document.querySelector('.service-header'),
@@ -264,8 +230,6 @@ window.addEventListener('DOMContentLoaded', () => {
 	};
 
 	tabs();
-
-
 
 	// слайдер
 	const slider = () => {
@@ -458,42 +422,149 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	calculator(100);
 
-	// подвал
-	const footerForm = () => {
-		const footerForm = document.querySelector('.footer-form');
-		const formInput = footerForm.querySelectorAll('input');
-		formInput.forEach(item => {
-			item.addEventListener('blur', event => {
-				const target = event.target;
-				function replaceUpper(match) {
-					return match.toUpperCase();
-				}
-				function replaceLower(match) {
-					return match.toLowerCase();
-				}
-				if (target.placeholder === 'Ваше имя' || target.placeholder === 'Ваше сообщение') {
-					let reg = target.value.replace(/[a-z0-9/.,+=_)({*&$%#@'"!~^:;?`<>№|\\})]/gi, '');
-					reg = reg.replace(/ {2,}/g, ' ');
-					reg = reg.replace(/^( *-* *)|( *-* *)$/g, '');
-					target.value = reg;
-				} else if (target.placeholder === 'E-mail') {
-					const reg = target.value.replace(/[а-яё0-9/, +=)({&$%#^:;?`<>№|\\})]/gi, '');
-					target.value = reg;
-				} else if (target.placeholder === 'Номер телефона') {
-					const reg = target.value.replace(/[а-яёa-z/, +=_~{!*&$%#'."^:;?`<>№|\][\\}]/gi, '');
-					target.value = reg;
-				}
-				if (target.placeholder === 'Ваше имя') {
-					const str = target.value;
-					const regFirst = str.replace(/([А-ЯЁа-яё]*)/g, replaceLower).substr(1);
-					const regOther = str.replace(/([А-ЯЁа-яё]*)/g, replaceUpper).substr(0, 1);
-					const reg =  regOther + regFirst;
-					target.value = reg;
-				}
+	// валидация форм
+	const formValidator = () => {
+		const form = document.querySelectorAll('form');
+		form.forEach(item => {
+			item.querySelectorAll('input').forEach(item => {
+				item.addEventListener('blur', event => {
+					const target = event.target;
+					function replaceUpper(match) {
+						return match.toUpperCase();
+					}
+					function replaceLower(match) {
+						return match.toLowerCase();
+					}
+					if (target.placeholder === 'Ваше сообщение') {
+						let reg = target.value.replace(/[a-z+=)({*&$%#~^`<>№|\\})]/gi, '');
+						reg = reg.replace(/ {2,}/g, ' ');
+						reg = reg.replace(/^( *-* *)|( *-* *)$/g, '');
+						target.value = reg;
+					} else if (target.placeholder === 'Ваше имя') {
+						let reg = target.value.replace(/[a-z0-9/.,\-+=_)({*&$%#@'"!~^:;?`<>№|\\})]/gi, '');
+						reg = reg.replace(/ {2,}/g, ' ');
+						reg = reg.replace(/^( *)|( *)$/g, '');
+						target.value = reg;
+					} else if (target.placeholder === 'E-mail' || target.placeholder === 'Ваш E-mail') {
+						const reg = target.value.replace(/[а-яё0-9/, +=)({&$%#^:;?`<>№|\\})]/gi, '');
+						target.value = reg;
+					} else if (target.placeholder === 'Номер телефона' || target.placeholder === 'Ваш номер телефона') {
+						const checkNumber = reg => {
+							const firstDigit = reg.substr(0, 1);
+							let inputValue = target.value;
+							if (inputValue.length < 11) {
+								inputValue = '';
+								return inputValue;
+							} else {
+								if (firstDigit === '+') {
+									inputValue = inputValue.substr(0, 12);
+									return inputValue;
+								} else if (firstDigit === '7' || firstDigit === '8') {
+									inputValue = inputValue.substr(0, 11);
+									return inputValue;
+								} else if (firstDigit !== '+' || firstDigit !== '7' || firstDigit !== '8') {
+									inputValue = '';
+									return inputValue;
+								}
+							}
+						};
+						const reg = target.value.replace(/[a-zа-яё/.,\-=_)({*&$%#@'"!~^:;?`<>№|\\})]/gi, '');
+						const result = checkNumber(reg);
+						target.value = result;
+					}
+					if (target.placeholder === 'Ваше имя') {
+						const str = target.value;
+						const regFirst = str.replace(/([А-ЯЁа-яё]*)/g, replaceLower).substr(1);
+						const regOther = str.replace(/([А-ЯЁа-яё]*)/g, replaceUpper).substr(0, 1);
+						const reg =  regOther + regFirst;
+						target.value = reg;
+					}
+				});
 			});
 		});
 	};
+	formValidator();
 
-	footerForm();
+	// send-ajax-form
+	const sendForm = () => {
+		const errorMessage = 'Что-то пошло не так...',
+			// loadMessage = 'Загрузка...',
+			successMessage = 'Спасибо! Мы скоро свяжемся с Вами!';
 
+		const statusMessage = document.createElement('div');
+		statusMessage.classList.add('status-message');
+		statusMessage.style.cssText = 'font-size: 1.5rem; color: #fff;';
+		document.body.addEventListener('submit', event => {
+			event.preventDefault();
+			if (event.target.tagName.toLowerCase() === 'form') {
+				event.target.appendChild(statusMessage);
+				const animationLoading = `
+				<div class="sk-wave">
+					<div class="sk-rect sk-rect-1"></div>
+					<div class="sk-rect sk-rect-2"></div>
+					<div class="sk-rect sk-rect-3"></div>
+					<div class="sk-rect sk-rect-4"></div>
+					<div class="sk-rect sk-rect-5"></div>
+				</div>
+				`;
+				statusMessage.insertAdjacentHTML('beforeend', animationLoading);
+				const formData = new FormData(event.target);
+				const body = {};
+				formData.forEach((val, key) => {
+					body[key] = val;
+				});
+				const postData = body => new Promise((resolve, reject) => {
+					const request = new XMLHttpRequest();
+					request.addEventListener('readystatechange', () => {
+						if (request.readyState !== 4) {
+							return;
+						}
+						if (request.status === 200) {
+							resolve(request.responseText);
+						} else {
+							reject(request.statusText);
+						}
+					});
+					request.open('POST', './server.php');
+					request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+					request.send(JSON.stringify(body));
+				});
+				const closePopup = () => {
+					const timeout = setTimeout(closePopup, 2000);
+					const status = document.querySelector('.status-message'),
+						statusParent = status.closest('form').parentElement.parentElement.parentElement;
+					if (statusMessage.textContent === '' && statusParent.className === 'popup') {
+						statusParent.style.display = 'none';
+					}
+					if (statusParent.style.display === 'none') {
+						clearTimeout(timeout);
+					}
+				};
+				const clearOutputData = () => {
+					const timeout = setTimeout(clearOutputData, 3000);
+					if (statusMessage.textContent) {
+						statusMessage.textContent = '';
+						setTimeout(closePopup, 2000);
+					} else if (statusMessage.textContent === '') {
+						clearTimeout(timeout);
+					}
+				};
+				const outputData = () => {
+					statusMessage.textContent = successMessage;
+					event.target.querySelectorAll('input').forEach(item => {
+						item.value = '';
+					});
+					setTimeout(clearOutputData, 3000);
+				};
+				postData(body)
+					.then(outputData)
+					.catch(error => {
+						statusMessage.textContent = errorMessage;
+						console.error(error);
+					});
+			}
+		});
+	};
+
+	sendForm();
 });
