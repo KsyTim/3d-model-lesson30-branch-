@@ -29,26 +29,26 @@ window.addEventListener('DOMContentLoaded', () => {
 				seconds: preNumber(seconds),
 			};
 		}
-		function updateClock() {
+		const updateClock = () => {
 			const timer = getTimeRemaining();
 			timerHours.textContent = timer.hours;
 			timerMinutes.textContent = timer.minutes;
 			timerSeconds.textContent = timer.seconds;
-
+			let interval;
 			if (timer.timeRemaining > 0) {
-				setInterval(updateClock, 1000);
+				interval = setInterval(updateClock, 1000);
 			} else if (timer.timeRemaining <= 0) {
-				clearInterval(updateClock);
+				clearInterval(interval);
 				timerHours.textContent = '00';
 				timerMinutes.textContent = '00';
 				timerSeconds.textContent = '00';
 				timerAction.textContent = 'Акция завершена';
 			}
-		}
+		};
 		updateClock();
 	}
 
-	countTimer('10 March 2021');
+	countTimer('07 March 2021');
 
 	//меню
 	const toggleMenu = () => {
@@ -513,71 +513,58 @@ window.addEventListener('DOMContentLoaded', () => {
 				formData.forEach((val, key) => {
 					body[key] = val;
 				});
-				const postData = (body, outputData, errorData) => {
+				const postData = body => new Promise((resolve, reject) => {
 					const request = new XMLHttpRequest();
 					request.addEventListener('readystatechange', () => {
 						if (request.readyState !== 4) {
 							return;
 						}
 						if (request.status === 200) {
-							outputData();
+							resolve(request.responseText);
 						} else {
-							errorData(request.status);
+							reject(request.statusText);
 						}
 					});
 					request.open('POST', './server.php');
 					request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 					request.send(JSON.stringify(body));
+				});
+				const closePopup = () => {
+					const timeout = setTimeout(closePopup, 2000);
+					const status = document.querySelector('.status-message'),
+						statusParent = status.closest('form').parentElement.parentElement.parentElement;
+					if (statusMessage.textContent === '' && statusParent.className === 'popup') {
+						statusParent.style.display = 'none';
+					}
+					if (statusParent.style.display === 'none') {
+						clearTimeout(timeout);
+					}
+				};
+				const clearOutputData = () => {
+					const timeout = setTimeout(clearOutputData, 3000);
+					if (statusMessage.textContent) {
+						statusMessage.textContent = '';
+						setTimeout(closePopup, 2000);
+					} else if (statusMessage.textContent === '') {
+						clearTimeout(timeout);
+					}
 				};
 				const outputData = () => {
 					statusMessage.textContent = successMessage;
 					event.target.querySelectorAll('input').forEach(item => {
 						item.value = '';
 					});
-					const timeout = () => {
-						statusMessage.textContent = '';
-					};
-					setTimeout(timeout, 2000);
-					if (statusMessage.textContent) {
-						setTimeout(() => {
-							document.querySelector('.popup').style.display = 'none';
-						}, 2000);
-					}
-					// const timeout = () => {
-					// 	setTimeout(() => {
-					// 		statusMessage.textContent = '';
-					// 	}, 3000);
-					// };
-					// const timeout1 = () => {
-					// 	statusMessage.textContent = successMessage;
-					// 	timeout2();
-					// };
-					// const timeout2 = () => {
-					// 	timeout();
-					// };
-					// const timeout3 = () => {
-					// 	const timeoutClear = () => {
-					// 		clearTimeout(timeout);
-					// 	};
-					// 	setTimeout(() => {
-					// 		timeoutClear();
-					// 		console.log('clear');
-					// 	}, 3000);
-					// };
-					// timeout1();
-					// timeout3();
-					// event.target.querySelectorAll('input').forEach(item => {
-					// 	item.value = '';
-					// });
+					setTimeout(clearOutputData, 3000);
 				};
-				postData(body, outputData, error => {
-					statusMessage.textContent = errorMessage;
-					console.error(error);
-				});
+				postData(body)
+					.then(outputData)
+					.catch(error => {
+						statusMessage.textContent = errorMessage;
+						console.error(error);
+					});
 			}
 		});
 	};
 
 	sendForm();
-	// const statusMessage = document.querySelector('.status-message');
 });
