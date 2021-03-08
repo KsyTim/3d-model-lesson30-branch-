@@ -543,6 +543,32 @@ window.addEventListener('DOMContentLoaded', () => {
 							document.querySelector('.popup').style.display = 'none';
 						}, 2000);
 					}
+					// const timeout = () => {
+					// 	setTimeout(() => {
+					// 		statusMessage.textContent = '';
+					// 	}, 3000);
+					// };
+					// const timeout1 = () => {
+					// 	statusMessage.textContent = successMessage;
+					// 	timeout2();
+					// };
+					// const timeout2 = () => {
+					// 	timeout();
+					// };
+					// const timeout3 = () => {
+					// 	const timeoutClear = () => {
+					// 		clearTimeout(timeout);
+					// 	};
+					// 	setTimeout(() => {
+					// 		timeoutClear();
+					// 		console.log('clear');
+					// 	}, 3000);
+					// };
+					// timeout1();
+					// timeout3();
+					// event.target.querySelectorAll('input').forEach(item => {
+					// 	item.value = '';
+					// });
 				};
 				postData(body, outputData, error => {
 					statusMessage.textContent = errorMessage;
