@@ -488,10 +488,11 @@ window.addEventListener('DOMContentLoaded', () => {
 	// send-ajax-form
 	const sendForm = () => {
 		const errorMessage = 'Что-то пошло не так...',
-			loadMessage = 'Загрузка...',
+			// loadMessage = 'Загрузка...',
 			successMessage = 'Спасибо! Мы скоро свяжемся с Вами!';
 
 		const statusMessage = document.createElement('div');
+		statusMessage.classList.add('status-message');
 		statusMessage.style.cssText = 'font-size: 1.5rem; color: #fff;';
 		document.body.addEventListener('submit', event => {
 			event.preventDefault();
@@ -528,24 +529,29 @@ window.addEventListener('DOMContentLoaded', () => {
 					request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 					request.send(JSON.stringify(body));
 				};
-				postData(body, () => {
+				const outputData = () => {
 					statusMessage.textContent = successMessage;
-					setTimeout(() => {
-						if (statusMessage.textContent === successMessage) {
-							console.log("удаляем");
-							statusMessage.textContent = '';
-						}
-					}, 3000);
-				}, error => {
+					event.target.querySelectorAll('input').forEach(item => {
+						item.value = '';
+					});
+					const timeout = () => {
+						statusMessage.textContent = '';
+					};
+					setTimeout(timeout, 2000);
+					if (statusMessage.textContent) {
+						setTimeout(() => {
+							document.querySelector('.popup').style.display = 'none';
+						}, 2000);
+					}
+				};
+				postData(body, outputData, error => {
 					statusMessage.textContent = errorMessage;
 					console.error(error);
-				});
-				event.target.querySelectorAll('input').forEach(item => {
-					item.value = '';
 				});
 			}
 		});
 	};
 
 	sendForm();
+	// const statusMessage = document.querySelector('.status-message');
 });
