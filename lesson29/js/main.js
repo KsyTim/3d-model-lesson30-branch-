@@ -513,21 +513,12 @@ window.addEventListener('DOMContentLoaded', () => {
 				formData.forEach((val, key) => {
 					body[key] = val;
 				});
-				const postData = body => new Promise((resolve, reject) => {
-					const request = new XMLHttpRequest();
-					request.addEventListener('readystatechange', () => {
-						if (request.readyState !== 4) {
-							return;
-						}
-						if (request.status === 200) {
-							resolve(request.responseText);
-						} else {
-							reject(request.statusText);
-						}
-					});
-					request.open('POST', './server.php');
-					request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-					request.send(JSON.stringify(body));
+				const postData = body => fetch('./server.php', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json; charset=utf-8'
+					},
+					body: JSON.stringify(body)
 				});
 				const closePopup = () => {
 					const timeout = setTimeout(closePopup, 2000);
@@ -557,7 +548,12 @@ window.addEventListener('DOMContentLoaded', () => {
 					setTimeout(clearOutputData, 3000);
 				};
 				postData(body)
-					.then(outputData)
+					.then(response => {
+						if (response.status !== 200) {
+							throw new Error('status network is not 200');
+						}
+						outputData();
+					})
 					.catch(error => {
 						statusMessage.textContent = errorMessage;
 						console.error(error);
