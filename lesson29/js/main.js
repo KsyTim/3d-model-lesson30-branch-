@@ -452,16 +452,31 @@ window.addEventListener('DOMContentLoaded', () => {
 						const checkNumber = reg => {
 							const firstDigit = reg.substr(0, 1);
 							let inputValue = target.value;
+							const result = inputValue.replace(/[a-zа-яё/.,\-=_)({*&$%#@'"!~^:;?`<>№|\\})]/gi, '');
+							inputValue = result;
 							if (inputValue.length < 11) {
 								inputValue = '';
 								return inputValue;
 							} else {
 								if (firstDigit === '+') {
-									inputValue = inputValue.substr(0, 12);
-									return inputValue;
+									if (inputValue.substr(1).includes('+')) {
+										inputValue = '';
+										return inputValue;
+									} else if (inputValue[1] !== '7') {
+										inputValue = '';
+										return inputValue;
+									} else {
+										inputValue = inputValue.substr(0, 12);
+										return inputValue;
+									}
 								} else if (firstDigit === '7' || firstDigit === '8') {
-									inputValue = inputValue.substr(0, 11);
-									return inputValue;
+									if (inputValue.substr(1).includes('+')) {
+										inputValue = '';
+										return inputValue;
+									} else {
+										inputValue = inputValue.substr(0, 11);
+										return inputValue;
+									}
 								} else if (firstDigit !== '+' || firstDigit !== '7' || firstDigit !== '8') {
 									inputValue = '';
 									return inputValue;
@@ -488,7 +503,6 @@ window.addEventListener('DOMContentLoaded', () => {
 	// send-ajax-form
 	const sendForm = () => {
 		const errorMessage = 'Что-то пошло не так...',
-			// loadMessage = 'Загрузка...',
 			successMessage = 'Спасибо! Мы скоро свяжемся с Вами!';
 
 		const statusMessage = document.createElement('div');
