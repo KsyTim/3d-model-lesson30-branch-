@@ -34,11 +34,13 @@ window.addEventListener('DOMContentLoaded', () => {
 			timerHours.textContent = timer.hours;
 			timerMinutes.textContent = timer.minutes;
 			timerSeconds.textContent = timer.seconds;
-			let interval;
+			let clockTimeout;
 			if (timer.timeRemaining > 0) {
-				interval = setInterval(updateClock, 1000);
+				clockTimeout = setTimeout(() => {
+					setTimeout(updateClock, 1000);
+				});
 			} else if (timer.timeRemaining <= 0) {
-				clearInterval(interval);
+				clearTimeout(clockTimeout);
 				timerHours.textContent = '00';
 				timerMinutes.textContent = '00';
 				timerSeconds.textContent = '00';
@@ -47,8 +49,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		};
 		updateClock();
 	}
-
-	countTimer('07 March 2021');
+	countTimer('12 March 2021');
 
 	//меню
 	const toggleMenu = () => {
