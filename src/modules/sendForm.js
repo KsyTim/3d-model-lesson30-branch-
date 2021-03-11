@@ -1,14 +1,19 @@
+// отправка формы при клике на "оставить заявку"
 const sendForm = () => {
+	// сообщения для отображения на странице при обработке запроса
 	const errorMessage = 'Что-то пошло не так...',
 		successMessage = 'Спасибо! Мы скоро свяжемся с Вами!';
 
+	// создание элемента с информацией - статус обработки запроса
 	const statusMessage = document.createElement('div');
 	statusMessage.classList.add('status-message');
 	statusMessage.style.cssText = 'font-size: 1.5rem; color: #fff;';
+	// событие отправки формы
 	document.body.addEventListener('submit', event => {
 		event.preventDefault();
 		if (event.target.tagName.toLowerCase() === 'form') {
 			event.target.appendChild(statusMessage);
+			// анимация во время ожидания при запросе на сервер
 			const animationLoading = `
       <div class="sk-wave">
         <div class="sk-rect sk-rect-1"></div>
@@ -24,6 +29,7 @@ const sendForm = () => {
 			formData.forEach((val, key) => {
 				body[key] = val;
 			});
+			// функция-отправка POST-запроса с помощью fetch
 			const postData = body => fetch('./server.php', {
 				method: 'POST',
 				headers: {
@@ -31,9 +37,10 @@ const sendForm = () => {
 				},
 				body: JSON.stringify(body)
 			});
+			// закрытие модального окна при получении положительного статуса после отправки запроса на сервер
 			const closePopup = () => {
-				const timeout = setTimeout(closePopup, 2000);
-				const status = document.querySelector('.status-message'),
+				const timeout = setTimeout(closePopup, 2000),
+					status = document.querySelector('.status-message'),
 					statusParent = status.closest('form').parentElement.parentElement.parentElement;
 				if (statusMessage.textContent === '' && statusParent.className === 'popup') {
 					statusParent.style.display = 'none';
@@ -42,6 +49,7 @@ const sendForm = () => {
 					clearTimeout(timeout);
 				}
 			};
+			// удаление положительного статуса после отправки запроса на сервер
 			const clearOutputData = () => {
 				const timeout = setTimeout(clearOutputData, 3000);
 				if (statusMessage.textContent) {
@@ -51,6 +59,7 @@ const sendForm = () => {
 					clearTimeout(timeout);
 				}
 			};
+			// удаление значений полей формы после отправки запроса на сервер
 			const outputData = () => {
 				statusMessage.textContent = successMessage;
 				event.target.querySelectorAll('input').forEach(item => {
@@ -58,6 +67,7 @@ const sendForm = () => {
 				});
 				setTimeout(clearOutputData, 3000);
 			};
+			// обработка данных при POST-запросе
 			postData(body)
 				.then(response => {
 					if (response.status !== 200) {
@@ -73,4 +83,5 @@ const sendForm = () => {
 	});
 };
 
+// экспорт данных
 export default sendForm;

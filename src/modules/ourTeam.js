@@ -1,24 +1,30 @@
+// секция "наша команда"
 const ourTeam = () => {
-	const ourTeam = document.getElementById('command');
-	const member = ourTeam.querySelectorAll('.col-12');
+	// элемент со страницы "наша команда"
+	const ourTeam = document.getElementById('command'),
+		// каждый участник (карточка)
+		member = ourTeam.querySelectorAll('.col-12');
 	member.forEach(item => {
+		// при наведении изменяем значение атрибута src на значение атрибута data-img
 		item.addEventListener('mouseenter', event => {
-			const target = event.target;
-			const memberPhoto = target.querySelector('img');
-			const memberPhotoSrc = memberPhoto.src;
-			const memberPhotoData = memberPhoto.dataset.img;
+			const target = event.target,
+				memberPhoto = target.querySelector('img'),
+				memberPhotoSrc = memberPhoto.src,
+				memberPhotoData = memberPhoto.dataset.img;
 			memberPhoto.src = memberPhotoData;
 			memberPhoto.dataset.img = memberPhotoSrc;
 		});
+		// в противном случае, когда убираем курсор с карточки возвращаем значения атрибутов обратно
 		item.addEventListener('mouseleave', event => {
-			const target = event.target;
-			const memberPhoto = target.querySelector('img');
-			const memberPhotoSrc = memberPhoto.src;
-			const memberPhotoData = memberPhoto.dataset.img;
+			const target = event.target,
+				memberPhoto = target.querySelector('img'),
+				memberPhotoSrc = memberPhoto.src,
+				memberPhotoData = memberPhoto.dataset.img;
 			memberPhoto.src = memberPhotoData;
 			memberPhoto.dataset.img = memberPhotoSrc;
 		});
 	});
 };
 
+// экспорт данных
 export default ourTeam;
