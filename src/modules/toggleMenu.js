@@ -4,6 +4,8 @@ const toggleMenu = () => {
 	let menu = document.querySelector('menu');
 	// функция, отображающая меню на странице путем toggle class
 	const actionMenu = () => {
+		menu = document.querySelector('menu');
+		menu.removeAttribute('style');
 		menu.classList.toggle('active-menu');
 	};
 	// функция, отслеживающая клики по элементам на странице
@@ -18,12 +20,10 @@ const toggleMenu = () => {
 				// клик по элементам меню
 				targetMenuItem = target.closest('ul>li>a'),
 				// клик по стрелке "перейти к нашим услугам" в главной секции
-				targetToServices = target.closest('[href="#service-block"'),
-				// ширина эдемента на странице
-				width = document.documentElement.offsetWidth;
+				targetToServices = target.closest('[href="#service-block"');
 
 			// условие для отключения анимации на экранах < 768px
-			if (width < 768) {
+			if (document.documentElement.offsetWidth < 768) {
 				menu = document.querySelector('menu');
 				if (targetMenu !== null) {
 					menu.style.transform = 'translateX(100%)';
@@ -31,10 +31,11 @@ const toggleMenu = () => {
 					menu.style.transform = 'translateX(-100%)';
 				} else if (targetMenuItem !== null) {
 					menu.style.transform = 'translateX(-100%)';
-				} else if (menu.getAttribute('style') === 'transform: translateX(100%);') {
+				} else if (menu.getAttribute('style') === 'transform: translateX(100%);' && target !== menu) {
 					menu.style.transform = 'translateX(-100%)';
 				}
-			} else {
+			}
+			if (document.documentElement.offsetWidth >= 768) {
 				menu = document.querySelector('menu');
 				if (targetMenu !== null) {
 					actionMenu();
@@ -56,7 +57,7 @@ const toggleMenu = () => {
 						top: elemPosition,
 						behavior: 'smooth'
 					});
-					// условие: если клик по стрелке "перейти к нашим услугам" в главной 
+					// условие: если клик по стрелке "перейти к нашим услугам" в главной
 					// секции, то плавный скролл до секции "наши услуги"
 				} else if (targetToServices !== null) {
 					event.preventDefault();
@@ -71,7 +72,7 @@ const toggleMenu = () => {
 						top: elemPosition,
 						behavior: 'smooth'
 					});
-				} else if (menu.className === 'active-menu') {
+				} else if (menu.className === 'active-menu' && target !== menu) {
 					actionMenu();
 				}
 			}
